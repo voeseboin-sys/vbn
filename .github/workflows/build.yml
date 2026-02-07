@@ -2,7 +2,7 @@ name: Build Android APK
 on: [push]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
@@ -16,16 +16,14 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y python3-pip build-essential git libffi-dev libssl-dev \
-          zip unzip autoconf libtool pkg-config zlib1g-dev libncurses6 \
-          libncursesw6 libtinfo6 cmake patch gettext libltdl-dev
+          zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5 \
+          libncursesw5 libtinfo5 cmake patch gettext libltdl-dev lld
           pip install --upgrade pip
-          pip install buildozer cython virtualenv
+          pip install buildozer cython==0.29.33 virtualenv
 
       - name: Build with Buildozer
         run: |
-          # Limpieza profunda de intentos anteriores
           rm -rf .buildozer
-          # Forzamos la descarga de herramientas antes de compilar
           buildozer -v android debug
         env:
           BUILDOZER_ALLOW_KIVY_USER_ROOT: 1
