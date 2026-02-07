@@ -9,15 +9,17 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y python3-pip build-essential git libffi-dev libssl-dev           openjdk-17-jdk-headless zip unzip autoconf libtool pkg-config           zlib1g-dev libncurses6 libncursesw6 libtinfo6 cmake
+          sudo apt install -y python3-pip build-essential git libffi-dev libssl-dev           openjdk-17-jdk-headless zip unzip autoconf libtool pkg-config           zlib1g-dev libncurses6 libncursesw6 libtinfo6 cmake patch gettext           libltdl-dev
           pip install --upgrade pip
           pip install buildozer cython virtualenv
           
       - name: Build with Buildozer
         run: |
-          # Aceptamos licencias y limpiamos caché previo
-          yes | buildozer android clean
-          buildozer -v android debug
+          # Aceptamos las licencias de Android SDK de forma silenciosa
+          mkdir -p ~/.android && touch ~/.android/repositories.cfg
+          # Forzamos a buildozer a descargar los componentes primero
+          buildozer android debug --only-sdk-tools
+          yes | buildozer -v android debug
         env:
           BUILDOZER_ALLOW_KIVY_USER_ROOT: 1
 
