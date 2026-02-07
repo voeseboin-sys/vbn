@@ -1,0 +1,39 @@
+# =============================================================================
+# REQUIREMENTS.TXT v2.0 - Dependencias corregidas para GitHub Actions
+# Repositorio: voeseboin-sys/vbn
+# 
+# CORRECCIONES:
+# - kivymd==1.2.0 (antes 2.0.0 que NO EXISTE en PyPI)
+# - Todas las versiones verificadas en PyPI
+# - Compatible con Ubuntu 24.04
+# =============================================================================
+
+# Framework UI - VERSIONES ESTABLES Y EXISTENTES
+kivy==2.2.1
+kivymd==1.2.0          # ← CORREGIDO: 2.0.0 NO EXISTE en PyPI
+
+# Generación de PDF
+fpdf2==2.7.5
+
+# Compatibilidad con Android (Share Intent, notificaciones, etc.)
+plyer==2.1.0
+
+# Procesamiento de imágenes (requerido por Kivy)
+pillow==10.0.0
+
+# =============================================================================
+# HERRAMIENTAS DE COMPILACIÓN (para GitHub Actions)
+# =============================================================================
+
+# Buildozer - Herramienta de compilación Android
+buildozer==1.5.0
+
+# Cython - Necesario para compilar Kivy
+Cython==0.29.36
+
+# =============================================================================
+# NOTAS:
+# - sqlite3 viene incluido en Python, no requiere instalación
+# - No usar versiones con 'b' (beta) para producción
+# - Todas las versiones verificadas: 2024-02-07
+# =============================================================================

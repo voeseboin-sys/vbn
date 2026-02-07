@@ -1,0 +1,778 @@
+#:kivy 2.2.0
+#:import dp kivy.metrics.dp
+#:import format_guaranies main.format_guaranies
+
+# ==============================================================================
+# GESTIÓN FÁBRICA - Interfaz de Usuario Kivy
+# Repositorio: voeseboin-sys/apkgithut
+# Tema: Oscuro Material Design 3
+# Orientación: Landscape
+# ==============================================================================
+
+FactoryScreenManager:
+    id: screen_manager
+    transition: SlideTransition()
+    
+    PanelScreen:
+    InventarioScreen:
+    ProduccionScreen:
+    VentasScreen:
+    GastosScreen:
+    ReportesScreen:
+
+# ==============================================================================
+# MENÚ DE NAVEGACIÓN LATERAL
+# ==============================================================================
+<NavDrawerContent@MDNavigationDrawerMenu>:
+    MDNavigationDrawerHeader:
+        title: "GESTIÓN FÁBRICA"
+        text: "Sistema de Administración"
+        spacing: dp(10)
+        padding: dp(10), dp(20), dp(10), dp(10)
+        
+    MDNavigationDrawerDivider:
+    
+    MDNavigationDrawerItem:
+        icon: "view-dashboard"
+        text: "Panel"
+        on_release: app.root.current = 'panel'; app.root.ids.nav_drawer.set_state('close')
+        
+    MDNavigationDrawerItem:
+        icon: "package-variant"
+        text: "Inventario"
+        on_release: app.root.current = 'inventario'; app.root.ids.nav_drawer.set_state('close')
+        
+    MDNavigationDrawerItem:
+        icon: "factory"
+        text: "Producción"
+        on_release: app.root.current = 'produccion'; app.root.ids.nav_drawer.set_state('close')
+        
+    MDNavigationDrawerItem:
+        icon: "cash-register"
+        text: "Ventas"
+        on_release: app.root.current = 'ventas'; app.root.ids.nav_drawer.set_state('close')
+        
+    MDNavigationDrawerItem:
+        icon: "cash-remove"
+        text: "Gastos"
+        on_release: app.root.current = 'gastos'; app.root.ids.nav_drawer.set_state('close')
+        
+    MDNavigationDrawerItem:
+        icon: "file-pdf-box"
+        text: "Reportes"
+        on_release: app.root.current = 'reportes'; app.root.ids.nav_drawer.set_state('close')
+    
+    MDNavigationDrawerDivider:
+    
+    MDNavigationDrawerLabel:
+        text: "v1.0 | GitHub Build"
+
+# ==============================================================================
+# PANTALLA: PANEL DE CONTROL
+# ==============================================================================
+<PanelScreen>:
+    name: 'panel'
+    
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: app.theme_cls.backgroundColor
+        
+        MDTopAppBar:
+            type: "small"
+            theme_bg_color: "Primary"
+            
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "menu"
+                    on_release: nav_drawer.set_state('toggle')
+            
+            MDTopAppBarTitle:
+                text: "Panel de Control"
+            
+            MDTopAppBarTrailingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "github"
+                    on_release: app.mostrar_snackbar("voeseboin-sys/apkgithut")
+        
+        MDNavigationLayout:
+            MDNavigationDrawer:
+                id: nav_drawer
+                radius: 0, dp(16), dp(16), 0
+                
+                NavDrawerContent:
+            
+            ScrollView:
+                do_scroll_x: False
+                
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    padding: dp(20)
+                    spacing: dp(15)
+                    
+                    # Título de sección
+                    MDLabel:
+                        text: "RESUMEN DEL MES"
+                        font_style: "Title"
+                        role: "medium"
+                        halign: "left"
+                        size_hint_y: None
+                        height: dp(30)
+                    
+                    # Grid de tarjetas - Primera fila
+                    GridLayout:
+                        cols: 3
+                        spacing: dp(15)
+                        size_hint_y: None
+                        height: dp(180)
+                        
+                        # Tarjeta Ventas
+                        MDCard:
+                            style: "elevated"
+                            padding: dp(15)
+                            spacing: dp(10)
+                            
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                
+                                MDIcon:
+                                    icon: "cash-plus"
+                                    theme_icon_color: "Custom"
+                                    icon_color: 0.16, 0.65, 0.27, 1
+                                    size_hint: None, None
+                                    size: dp(40), dp(40)
+                                    pos_hint: {"center_x": 0.5}
+                                
+                                MDLabel:
+                                    text: "VENTAS"
+                                    font_style: "Label"
+                                    role: "medium"
+                                    halign: "center"
+                                
+                                MDLabel:
+                                    id: lbl_ventas
+                                    text: "Gs. 0"
+                                    font_style: "Title"
+                                    role: "large"
+                                    halign: "center"
+                                    theme_text_color: "Custom"
+                                    text_color: 0.16, 0.65, 0.27, 1
+                        
+                        # Tarjeta Gastos
+                        MDCard:
+                            style: "elevated"
+                            padding: dp(15)
+                            spacing: dp(10)
+                            
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                
+                                MDIcon:
+                                    icon: "cash-minus"
+                                    theme_icon_color: "Custom"
+                                    icon_color: 0.86, 0.21, 0.27, 1
+                                    size_hint: None, None
+                                    size: dp(40), dp(40)
+                                    pos_hint: {"center_x": 0.5}
+                                
+                                MDLabel:
+                                    text: "GASTOS"
+                                    font_style: "Label"
+                                    role: "medium"
+                                    halign: "center"
+                                
+                                MDLabel:
+                                    id: lbl_gastos
+                                    text: "Gs. 0"
+                                    font_style: "Title"
+                                    role: "large"
+                                    halign: "center"
+                                    theme_text_color: "Custom"
+                                    text_color: 0.86, 0.21, 0.27, 1
+                        
+                        # Tarjeta Balance
+                        MDCard:
+                            style: "elevated"
+                            padding: dp(15)
+                            spacing: dp(10)
+                            
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                
+                                MDIcon:
+                                    icon: "scale-balance"
+                                    theme_icon_color: "Custom"
+                                    icon_color: 0, 0.48, 1, 1
+                                    size_hint: None, None
+                                    size: dp(40), dp(40)
+                                    pos_hint: {"center_x": 0.5}
+                                
+                                MDLabel:
+                                    text: "BALANCE"
+                                    font_style: "Label"
+                                    role: "medium"
+                                    halign: "center"
+                                
+                                MDLabel:
+                                    id: lbl_balance
+                                    text: "Gs. 0"
+                                    font_style: "Title"
+                                    role: "large"
+                                    halign: "center"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 0.48, 1, 1
+                    
+                    # Segunda fila de métricas
+                    GridLayout:
+                        cols: 3
+                        spacing: dp(15)
+                        size_hint_y: None
+                        height: dp(180)
+                        
+                        # Tarjeta Unidades
+                        MDCard:
+                            style: "elevated"
+                            padding: dp(15)
+                            spacing: dp(10)
+                            
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                
+                                MDIcon:
+                                    icon: "package-variant-closed"
+                                    theme_icon_color: "Custom"
+                                    icon_color: 1, 0.76, 0.03, 1
+                                    size_hint: None, None
+                                    size: dp(40), dp(40)
+                                    pos_hint: {"center_x": 0.5}
+                                
+                                MDLabel:
+                                    text: "UNIDADES"
+                                    font_style: "Label"
+                                    role: "medium"
+                                    halign: "center"
+                                
+                                MDLabel:
+                                    id: lbl_unidades
+                                    text: "0"
+                                    font_style: "Title"
+                                    role: "large"
+                                    halign: "center"
+                                    theme_text_color: "Custom"
+                                    text_color: 1, 0.76, 0.03, 1
+                        
+                        # Tarjeta Costo Unitario
+                        MDCard:
+                            style: "elevated"
+                            padding: dp(15)
+                            spacing: dp(10)
+                            
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                
+                                MDIcon:
+                                    icon: "calculator-variant"
+                                    theme_icon_color: "Custom"
+                                    icon_color: 0.44, 0.26, 0.76, 1
+                                    size_hint: None, None
+                                    size: dp(40), dp(40)
+                                    pos_hint: {"center_x": 0.5}
+                                
+                                MDLabel:
+                                    text: "COSTO/UNIDAD"
+                                    font_style: "Label"
+                                    role: "medium"
+                                    halign: "center"
+                                
+                                MDLabel:
+                                    id: lbl_costo_unitario
+                                    text: "Gs. 0"
+                                    font_style: "Title"
+                                    role: "large"
+                                    halign: "center"
+                                    theme_text_color: "Custom"
+                                    text_color: 0.44, 0.26, 0.76, 1
+                        
+                        # Tarjeta Balance Total
+                        MDCard:
+                            style: "elevated"
+                            padding: dp(15)
+                            spacing: dp(10)
+                            
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                
+                                MDIcon:
+                                    icon: "bank"
+                                    theme_icon_color: "Custom"
+                                    icon_color: 0.13, 0.59, 0.55, 1
+                                    size_hint: None, None
+                                    size: dp(40), dp(40)
+                                    pos_hint: {"center_x": 0.5}
+                                
+                                MDLabel:
+                                    text: "BALANCE TOTAL"
+                                    font_style: "Label"
+                                    role: "medium"
+                                    halign: "center"
+                                
+                                MDLabel:
+                                    id: lbl_balance_total
+                                    text: "Gs. 0"
+                                    font_style: "Title"
+                                    role: "large"
+                                    halign: "center"
+                                    theme_text_color: "Custom"
+                                    text_color: 0.13, 0.59, 0.55, 1
+                    
+                    # Botón de actualizar
+                    MDButton:
+                        style: "filled"
+                        theme_width: "Custom"
+                        size_hint_x: 1
+                        height: dp(50)
+                        on_release: root.actualizar_dashboard()
+                        
+                        MDButtonIcon:
+                            icon: "refresh"
+                        
+                        MDButtonText:
+                            text: "ACTUALIZAR DATOS"
+
+# ==============================================================================
+# PANTALLA: INVENTARIO
+# ==============================================================================
+<InventarioScreen>:
+    name: 'inventario'
+    
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: app.theme_cls.backgroundColor
+        
+        MDTopAppBar:
+            type: "small"
+            theme_bg_color: "Primary"
+            
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "menu"
+                    on_release: nav_drawer.set_state('toggle')
+            
+            MDTopAppBarTitle:
+                text: "Inventario"
+        
+        MDNavigationLayout:
+            MDNavigationDrawer:
+                id: nav_drawer
+                radius: 0, dp(16), dp(16), 0
+                
+                NavDrawerContent:
+            
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(15)
+                
+                MDLabel:
+                    text: "PRODUCTOS EN STOCK"
+                    font_style: "Title"
+                    role: "medium"
+                    size_hint_y: None
+                    height: dp(30)
+                
+                ScrollView:
+                    do_scroll_x: False
+                    
+                    MDList:
+                        id: container_productos
+                        spacing: dp(5)
+                
+                MDButton:
+                    style: "filled"
+                    theme_width: "Custom"
+                    size_hint_x: 1
+                    height: dp(50)
+                    on_release: root.abrir_dialogo_nuevo_producto()
+                    
+                    MDButtonIcon:
+                        icon: "plus"
+                    
+                    MDButtonText:
+                        text: "NUEVO PRODUCTO"
+
+# ==============================================================================
+# PANTALLA: PRODUCCIÓN
+# ==============================================================================
+<ProduccionScreen>:
+    name: 'produccion'
+    
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: app.theme_cls.backgroundColor
+        
+        MDTopAppBar:
+            type: "small"
+            theme_bg_color: "Primary"
+            
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "menu"
+                    on_release: nav_drawer.set_state('toggle')
+            
+            MDTopAppBarTitle:
+                text: "Registro de Producción"
+        
+        MDNavigationLayout:
+            MDNavigationDrawer:
+                id: nav_drawer
+                radius: 0, dp(16), dp(16), 0
+                
+                NavDrawerContent:
+            
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(15)
+                
+                MDLabel:
+                    text: "REGISTRAR PRODUCCIÓN"
+                    font_style: "Title"
+                    role: "medium"
+                    size_hint_y: None
+                    height: dp(30)
+                
+                MDCard:
+                    style: "elevated"
+                    padding: dp(20)
+                    spacing: dp(15)
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        spacing: dp(15)
+                        
+                        MDTextField:
+                            id: txt_cantidad
+                            mode: "outlined"
+                            input_filter: "int"
+                            
+                            MDTextFieldHintText:
+                                text: "Cantidad Producida"
+                            
+                            MDTextFieldHelperText:
+                                text: "Unidades fabricadas"
+                                mode: "persistent"
+                        
+                        MDTextField:
+                            id: txt_costo
+                            mode: "outlined"
+                            input_filter: "float"
+                            
+                            MDTextFieldHintText:
+                                text: "Costo Total (Gs.)"
+                            
+                            MDTextFieldHelperText:
+                                text: "Costo de materiales y mano de obra"
+                                mode: "persistent"
+                
+                MDButton:
+                    style: "filled"
+                    theme_width: "Custom"
+                    size_hint_x: 1
+                    height: dp(50)
+                    on_release: root.registrar_produccion()
+                    
+                    MDButtonIcon:
+                        icon: "content-save"
+                    
+                    MDButtonText:
+                        text: "GUARDAR PRODUCCIÓN"
+
+# ==============================================================================
+# PANTALLA: VENTAS
+# ==============================================================================
+<VentasScreen>:
+    name: 'ventas'
+    
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: app.theme_cls.backgroundColor
+        
+        MDTopAppBar:
+            type: "small"
+            theme_bg_color: "Primary"
+            
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "menu"
+                    on_release: nav_drawer.set_state('toggle')
+            
+            MDTopAppBarTitle:
+                text: "Registro de Ventas"
+        
+        MDNavigationLayout:
+            MDNavigationDrawer:
+                id: nav_drawer
+                radius: 0, dp(16), dp(16), 0
+                
+                NavDrawerContent:
+            
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(15)
+                
+                MDLabel:
+                    text: "NUEVA VENTA"
+                    font_style: "Title"
+                    role: "medium"
+                    size_hint_y: None
+                    height: dp(30)
+                
+                MDCard:
+                    style: "elevated"
+                    padding: dp(20)
+                    spacing: dp(15)
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        spacing: dp(15)
+                        
+                        MDTextField:
+                            id: txt_cantidad_venta
+                            mode: "outlined"
+                            input_filter: "int"
+                            
+                            MDTextFieldHintText:
+                                text: "Cantidad"
+                        
+                        MDTextField:
+                            id: txt_precio_venta
+                            mode: "outlined"
+                            input_filter: "float"
+                            
+                            MDTextFieldHintText:
+                                text: "Precio Unitario (Gs.)"
+                        
+                        MDTextField:
+                            id: txt_cliente
+                            mode: "outlined"
+                            
+                            MDTextFieldHintText:
+                                text: "Nombre del Cliente (Opcional)"
+                
+                MDButton:
+                    style: "filled"
+                    theme_width: "Custom"
+                    size_hint_x: 1
+                    height: dp(50)
+                    on_release: root.registrar_venta()
+                    
+                    MDButtonIcon:
+                        icon: "cash-register"
+                    
+                    MDButtonText:
+                        text: "REGISTRAR VENTA"
+                
+                MDLabel:
+                    text: "ÚLTIMAS VENTAS"
+                    font_style: "Title"
+                    role: "medium"
+                    size_hint_y: None
+                    height: dp(30)
+                
+                ScrollView:
+                    do_scroll_x: False
+                    
+                    MDList:
+                        id: container_ventas
+                        spacing: dp(5)
+
+# ==============================================================================
+# PANTALLA: GASTOS
+# ==============================================================================
+<GastosScreen>:
+    name: 'gastos'
+    
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: app.theme_cls.backgroundColor
+        
+        MDTopAppBar:
+            type: "small"
+            theme_bg_color: "Primary"
+            
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "menu"
+                    on_release: nav_drawer.set_state('toggle')
+            
+            MDTopAppBarTitle:
+                text: "Registro de Gastos"
+        
+        MDNavigationLayout:
+            MDNavigationDrawer:
+                id: nav_drawer
+                radius: 0, dp(16), dp(16), 0
+                
+                NavDrawerContent:
+            
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(15)
+                
+                MDLabel:
+                    text: "NUEVO GASTO"
+                    font_style: "Title"
+                    role: "medium"
+                    size_hint_y: None
+                    height: dp(30)
+                
+                MDCard:
+                    style: "elevated"
+                    padding: dp(20)
+                    spacing: dp(15)
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        spacing: dp(15)
+                        
+                        MDTextField:
+                            id: txt_concepto_gasto
+                            mode: "outlined"
+                            
+                            MDTextFieldHintText:
+                                text: "Concepto del Gasto"
+                        
+                        MDTextField:
+                            id: txt_monto_gasto
+                            mode: "outlined"
+                            input_filter: "float"
+                            
+                            MDTextFieldHintText:
+                                text: "Monto (Gs.)"
+                        
+                        MDTextField:
+                            id: txt_categoria_gasto
+                            mode: "outlined"
+                            
+                            MDTextFieldHintText:
+                                text: "Categoría (Opcional)"
+                        
+                        MDTextField:
+                            id: txt_descripcion_gasto
+                            mode: "outlined"
+                            multiline: True
+                            
+                            MDTextFieldHintText:
+                                text: "Descripción (Opcional)"
+                
+                MDButton:
+                    style: "filled"
+                    theme_width: "Custom"
+                    size_hint_x: 1
+                    height: dp(50)
+                    on_release: root.registrar_gasto()
+                    
+                    MDButtonIcon:
+                        icon: "content-save"
+                    
+                    MDButtonText:
+                        text: "GUARDAR GASTO"
+                
+                MDLabel:
+                    text: "ÚLTIMOS GASTOS"
+                    font_style: "Title"
+                    role: "medium"
+                    size_hint_y: None
+                    height: dp(30)
+                
+                ScrollView:
+                    do_scroll_x: False
+                    
+                    MDList:
+                        id: container_gastos
+                        spacing: dp(5)
+
+# ==============================================================================
+# PANTALLA: REPORTES PDF
+# ==============================================================================
+<ReportesScreen>:
+    name: 'reportes'
+    
+    MDBoxLayout:
+        orientation: 'vertical'
+        md_bg_color: app.theme_cls.backgroundColor
+        
+        MDTopAppBar:
+            type: "small"
+            theme_bg_color: "Primary"
+            
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "menu"
+                    on_release: nav_drawer.set_state('toggle')
+            
+            MDTopAppBarTitle:
+                text: "Reportes PDF"
+        
+        MDNavigationLayout:
+            MDNavigationDrawer:
+                id: nav_drawer
+                radius: 0, dp(16), dp(16), 0
+                
+                NavDrawerContent:
+            
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(15)
+                
+                MDLabel:
+                    text: "GENERAR REPORTE"
+                    font_style: "Title"
+                    role: "medium"
+                    size_hint_y: None
+                    height: dp(30)
+                
+                MDCard:
+                    style: "elevated"
+                    padding: dp(20)
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        spacing: dp(10)
+                        
+                        MDLabel:
+                            text: "VISTA PREVIA"
+                            font_style: "Label"
+                            role: "medium"
+                            halign: "center"
+                        
+                        MDLabel:
+                            id: lbl_preview
+                            text: "Cargando..."
+                            font_style: "Body"
+                            role: "medium"
+                            halign: "left"
+                            markup: True
+                
+                MDButton:
+                    style: "filled"
+                    theme_width: "Custom"
+                    size_hint_x: 1
+                    height: dp(60)
+                    on_release: root.generar_pdf()
+                    
+                    MDButtonIcon:
+                        icon: "file-pdf-box"
+                    
+                    MDButtonText:
+                        text: "GENERAR Y COMPARTIR PDF"
+                
+                MDLabel:
+                    text: "El PDF se generará y se abrirá automáticamente el menú de compartir de Android."
+                    font_style: "Label"
+                    role: "small"
+                    halign: "center"
+                    theme_text_color: "Secondary"
