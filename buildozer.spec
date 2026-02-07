@@ -9,7 +9,7 @@ source.include_patterns = factory.kv,modules/*.py,assets/*
 version = 2.0.0
 
 # REQUERIMIENTOS: Actualizados para KivyMD 2.0.1 (Material 3)
-requirements = python3, kivy==2.3.0, https://github.com/kivymd/KivyMD/archive/master.zip, pillow, fpdf2, plyer, requests
+requirements = python3, kivy==2.3.0, https://github.com/kivymd/KivyMD/archive/master.zip, pillow, fpdf2, plyer, requests, materialyoucolor
 
 orientation = landscape
 fullscreen = 0
