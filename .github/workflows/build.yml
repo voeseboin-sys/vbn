@@ -5,12 +5,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build with Buildozer
+      
+      - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y python3-pip build-essential git libffi-dev libssl-dev
-          pip install buildozer cython
-          yes | buildozer -v android debug
+          sudo apt install -y python3-pip build-essential git libffi-dev libssl-dev           openjdk-17-jdk-headless zip unzip autoconf libtool pkg-config           zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake
+          pip install --upgrade pip
+          pip install buildozer cython==0.29.33 virtualenv
+          
+      - name: Build with Buildozer
+        run: |
+          # Aceptamos licencias de Android antes de empezar
+          yes | buildozer android clean
+          buildozer -v android debug
+        env:
+          BUILDOZER_ALLOW_KIVY_USER_ROOT: 1
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
